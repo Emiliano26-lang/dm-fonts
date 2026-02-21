@@ -27,7 +27,7 @@ jobs:
 
       - name: Validate Cyrillic coverage
         run: |
-          python scripts/validate_charset.py --charset=cyrillic sources/*.glyphs
+          python scripts/validate_charset.py --charset=cyrillic Sans/Source/*.glyphs
 
       - name: Build fonts
         run: |
