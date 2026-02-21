@@ -2,8 +2,9 @@ import sys
 from fontTools.ttLib import TTFont
 from pathlib import Path
 
-charset = sys.argv[1] if len(sys.argv) > 1 else "cyrillic"
-fonts = Path("fonts").glob("*.ttf")
+arg = sys.argv[1] if len(sys.argv) > 1 else "cyrillic"
+charset = arg.split("=")[-1] if arg.startswith("--charset=") else arg
+required = ranges[charset]
 
 ranges = {
     "cyrillic": range(0x0400, 0x04FF + 1)
