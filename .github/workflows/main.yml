@@ -1,0 +1,42 @@
+name: Build Fonts with Cyrillic Support
+
+on:
+  push:
+    paths:
+      - "sources/**"
+      - ".github/workflows/add-cyrillic.yml"
+  workflow_dispatch:
+
+jobs:
+  build-fonts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Cyrillic coverage
+        run: |
+          python scripts/validate_charset.py --charset=cyrillic sources/*.glyphs
+
+      - name: Build fonts
+        run: |
+          mkdir -p build/fonts
+          fontmake -g sources/*.glyphs -o otf --output-dir build/fonts
+          fontmake -g sources/*.glyphs -o ttf --output-dir build/fonts
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cyrillic-fonts
+          path: build/fonts
