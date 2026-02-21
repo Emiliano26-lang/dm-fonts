@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Validate Cyrillic coverage
-        run: python scripts/validate_charset.py --charset=cyrillic Sans/Source/*.glyphs
+        run: python scripts/validate_charset.py --charset=cyrillic Sans/Source/*.ttf
 
       - name: Build fonts
         run: |
