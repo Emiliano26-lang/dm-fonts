@@ -3,13 +3,15 @@ from fontTools.ttLib import TTFont
 from pathlib import Path
 
 charset = sys.argv[1] if len(sys.argv) > 1 else "cyrillic"
-sources = Path("fonts").glob("*.ttf")
+fonts = Path("fonts").glob("*.ttf")
 
-required = {
+ranges = {
     "cyrillic": range(0x0400, 0x04FF + 1)
-}[charset]
+}
 
-for font_path in sources:
+required = ranges[charset]
+
+for font_path in fonts:
     font = TTFont(str(font_path))
     cmap = font["cmap"].getBestCmap()
     missing = [cp for cp in required if cp not in cmap]
