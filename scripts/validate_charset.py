@@ -1,8 +1,20 @@
 import sys
+from fontTools.ttLib import TTFont
 from pathlib import Path
 
 charset = sys.argv[1] if len(sys.argv) > 1 else "cyrillic"
-sources = Path("Sans/Source").glob("*.glyphs")
+sources = Path("fonts").glob("*.ttf")
 
-print(f"Validating {charset} coverage in {len(list(sources))} source files...")
-# TODO: implement actual checks
+required = {
+    "cyrillic": range(0x0400, 0x04FF + 1)
+}[charset]
+
+for font_path in sources:
+    font = TTFont(str(font_path))
+    cmap = font["cmap"].getBestCmap()
+    missing = [cp for cp in required if cp not in cmap]
+    if missing:
+        print(f"{font_path} missing {len(missing)} {charset} glyphs")
+        sys.exit(1)
+
+print("All fonts cover", charset)
