@@ -4,13 +4,13 @@ from pathlib import Path
 
 arg = sys.argv[1] if len(sys.argv) > 1 else "cyrillic"
 charset = arg.split("=")[-1] if arg.startswith("--charset=") else arg
-required = ranges[charset]
+required = range[charset]
 
-ranges = {
+range = {
     "cyrillic": range(0x0400, 0x04FF + 1)
 }
 
-required = ranges[charset]
+required = range[charset]
 
 for font_path in fonts:
     font = TTFont(str(font_path))
