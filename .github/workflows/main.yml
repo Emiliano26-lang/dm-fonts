@@ -3,7 +3,7 @@ name: Build Fonts with Cyrillic Support
 on:
   push:
     paths:
-      - "sources/**"
+      - "/**"
       - ".github/workflows/add-cyrillic.yml"
   workflow_dispatch:
 
@@ -32,8 +32,8 @@ jobs:
       - name: Build fonts
         run: |
           mkdir -p build/fonts
-          fontmake -g sources/*.glyphs -o otf --output-dir build/fonts
-          fontmake -g sources/*.glyphs -o ttf --output-dir build/fonts
+          fontmake -g Sans/Source/*.glyphs -o otf --output-dir build/fonts
+          fontmake -g Sans/Source/*.glyphs -o ttf --output-dir build/fonts
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
